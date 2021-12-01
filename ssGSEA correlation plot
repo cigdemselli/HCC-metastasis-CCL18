@@ -1,0 +1,34 @@
+#eset is an expression set object with gene expression and phenotypic data
+#genelist is list of gene symbols ssGSEA score will be calculated for
+#gene is gene symbol
+#ylabel label for y axis (ssGSEA score)
+
+
+Gene_ssGSEA_correlation <- function(eset, genelist, gene, ylabel){
+  
+  #calculate ssGSEA score
+  es <- GSVA::gsva(expr=exprs(eset), gset.idx.list=list(genelist),
+             method="ssgsea", verbose=FALSE, parallel.sz=1, ssgsea.norm=TRUE)
+  
+  #subset est by gene
+  eset_sub <- eset[rownames(eset) %in% gene,]
+  
+  #merge data
+  mrg_data <- merge(as.data.frame(t(es)), as.data.frame(t(exprs(eset_sub))), by="row.names")
+  mrg <- merge(mrg_data, pData(eset_sub), by.x="Row.names", by.y="row.names")
+
+  #draw corr graph
+  plot <- ggplot(mrg, aes(x=mrg[[gene]], y=V1))+
+    theme_few()+
+    geom_point(size=2) + 
+    xlab(paste0(gene," expression")) +
+    ylab(ylabel) +
+    geom_smooth(method='lm', se=FALSE) +
+    theme(legend.position = 'none',
+          axis.title = element_text(size=14))
+  
+  return(plot)
+}
+
+#example usage
+#Gene_ssGSEA_correlation(eset = TCGA, genelist = ECM_kegg, gene="CCL18", ylabel = "ssGSEA ECM KEGG")
