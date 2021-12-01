@@ -1,29 +1,4 @@
----
-title: "HCC_manuscript_scriptforpublication"
-author: "CS"
-date: "01/12/2021"
-output: html_document
----
 
-
-
-
-
-#figure1a ()
-```{r}
-##################
-
-
-
-
-
-##################
-```
-
-
-
-
-#figure1c (adjacent-HCC boxplot)
 ```{r}
 ##################
 #eset is an expression set object with gene expression and phenotypic data
@@ -52,7 +27,6 @@ boxplot <- function(eset, gene, ids, grouping){
   return(plot)
 } 
 ##################
-
 
 ```
 
