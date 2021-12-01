@@ -1,0 +1,58 @@
+---
+title: "HCC_manuscript_scriptforpublication"
+author: "CS"
+date: "01/12/2021"
+output: html_document
+---
+
+
+
+
+
+#figure1a ()
+```{r}
+##################
+
+
+
+
+
+##################
+```
+
+
+
+
+#figure1c (adjacent-HCC boxplot)
+```{r}
+##################
+#eset is an expression set object with gene expression and phenotypic data
+#gene is gene symbol
+#ids is column name identifying sample names
+#grouping is column name that will stratify samples
+
+boxplot <- function(eset, gene, ids, grouping){
+  
+  sub_eset <- eset[which(row.names(exprs(eset)) %in% gene),]
+  mlt_data <- na.omit(melt(exprs(sub_eset))) 
+  mrg_data <- merge(mlt_data, pData(sub_eset), by.x= "Var2", by.y = ids)
+  
+  plot <- ggplot(mrg_data, aes(x=.data[[grouping]], y=value, fill=.data[[grouping]])) + 
+    geom_boxplot(outlier.shape = NA)+
+    geom_point(size=0.8, alpha=0.5, position=position_jitterdodge()) +
+    scale_fill_manual(values = c("lightblue", "darkblue"))+
+    theme_few()+
+    ylab("Gene expression") +
+    xlab("")+
+    ylim(5, 15) +
+    theme(legend.position = "none",
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
+  
+  return(plot)
+} 
+##################
+
+
+```
+
