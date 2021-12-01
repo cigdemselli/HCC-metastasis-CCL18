@@ -1,0 +1,18 @@
+#datain is data frame with results of CCL18 correlation analysis
+#gene_sort is gene symbols sorted by r values from correlation analysis
+#log10p is negative log10 transformed p values from correlation analysis 
+#r_coef is r values from correlation analysis 
+
+
+ggplot(datain, aes(x=gene_sort, y=log10p, fill=r_coef))+
+  geom_bar(stat="identity") +
+  scale_fill_gradient2(legend_title, midpoint=midpoint, low="yellow", mid="orange", high="red", 
+                       limits=c(0.20,0.35), breaks=c(0.20,0.25, 0.3, 0.35))+
+  theme_bw()+
+  ylab("-log10(p-value)") +
+  theme(legend.position = "right",
+        title =element_text(size=12),
+        axis.text.y = element_text(size=10),
+        axis.title.y = element_blank())+
+  coord_flip()+
+  ggtitle("correlation with CCL18 expression")
